@@ -1,16 +1,6 @@
-import { Fragment, useState } from "react";
-import Navbar from "./Navbar";
-import Main from "./Main";
-import Logo from "./Logo";
-import Search from "./Search";
-import Numresults from "./Numresults";
-
+import { useState } from "react";
+import ListBox from "./Box";
 import WatchedBox from "./WatchedBox";
-import MovieList from "./MovieList";
-import Box from "./Box";
-import WathcedSummary from "./WathcedSummary";
-import WatchedMoviesList from "./WatchedMoviesList";
-import StatRating from "./StatRating";
 
 const tempMovieData = [
   {
@@ -34,14 +24,8 @@ const tempMovieData = [
     Poster:
       "https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_SX300.jpg",
   },
-  {
-    imdbID: "tt6751654",
-    Title: "lil",
-    Year: "2019",
-    Poster:
-      "https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_SX300.jpg",
-  },
 ];
+
 const tempWatchedData = [
   {
     imdbID: "tt1375666",
@@ -65,27 +49,6 @@ const tempWatchedData = [
   },
 ];
 
-export default function App() {
-  const [movies, setMovies] = useState(tempMovieData);
-  const [watched, setWatched] = useState(tempWatchedData);
-  return (
-    <Fragment>
-      <Navbar>
-        <Search />
-        <Numresults movies={movies} />
-      </Navbar>
-      <Main>
-        <Box>
-          <MovieList movies={movies} />
-        </Box>
-        <Box>
-          <WathcedSummary watched={watched} />
-          <WatchedMoviesList watched={watched} />
-        </Box>
-      </Main>
-      <StatRating maxRating={5} />
-      <StatRating maxRating={10} />
-      <StatRating />
-    </Fragment>
-  );
+export default function Main({ children }) {
+  return <main className="main">{children}</main>;
 }
