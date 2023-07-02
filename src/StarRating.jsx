@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import Star from "./Star";
 
 const containerStyle = {
@@ -10,7 +11,7 @@ const starContainerStyle = {
   display: "flex",
 };
 
-const StatRating = ({
+const StarRating = ({
   maxRating = 5,
   color = "#fcc419",
   size = 48,
@@ -18,6 +19,16 @@ const StatRating = ({
   defaultRating = 0,
   onSetRating,
 }) => {
+  // defind propType for StarRating
+  StarRating.propTypes = {
+    maxRating: PropTypes.number.isRequired,
+    defaultRating: PropTypes.number,
+    color: PropTypes.string,
+    size: PropTypes.number,
+    messages: PropTypes.array,
+    className: PropTypes.string,
+    onSetRating: PropTypes.func,
+  };
   const [rating, setRating] = useState(defaultRating);
   const [tempRating, setTempRating] = useState(0);
 
@@ -55,4 +66,4 @@ const StatRating = ({
   );
 };
 
-export default StatRating;
+export default StarRating;

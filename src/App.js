@@ -10,7 +10,7 @@ import MovieList from "./MovieList";
 import Box from "./Box";
 import WathcedSummary from "./WathcedSummary";
 import WatchedMoviesList from "./WatchedMoviesList";
-import StatRating from "./StatRating";
+import StarRating from "./StarRating";
 
 const tempMovieData = [
   {
@@ -83,13 +83,13 @@ export default function App() {
           <WatchedMoviesList watched={watched} />
         </Box>
       </Main>
-      <StatRating
+      <StarRating
         maxRating={5}
         messages={["temp ", "nice", "good", "okay", "amazing"]}
         defaultRating={2}
       />
-      <StatRating maxRating={10} />
-      <StatRating />
+      <StarRating maxRating={10} />
+      <StarRating />
     </Fragment>
   );
 }
