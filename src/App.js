@@ -83,9 +83,13 @@ export default function App() {
   function handleWhatchedMovie(movie) {
     setWatched((watchedMovie) => [...watchedMovie, movie]);
   }
+  function handleRemoveMovie(id) {
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+  }
   function handleCloseDetails() {
     setSelectedId(null);
   }
+
   useEffect(
     function () {
       async function fetchMovies() {
@@ -153,11 +157,18 @@ export default function App() {
               KEY={KEY}
               selectedId={selectedId}
               onCloseDetails={handleCloseDetails}
+              watched={watched}
             />
           ) : (
             <Fragment>
-              <WathcedSummary watched={watched} />
-              <WatchedMoviesList watched={watched} />
+              <WathcedSummary
+                watched={watched}
+                handleRemoveMovie={handleRemoveMovie}
+              />
+              <WatchedMoviesList
+                watched={watched}
+                handleRemoveMovie={handleRemoveMovie}
+              />
             </Fragment>
           )}
         </Box>

@@ -3,14 +3,21 @@ import StarRating from "./StarRating";
 import Loader from "./Loader";
 
 const MovieDelaits = ({
+  handleRemoveMovie,
   selectedId,
   onCloseDetails,
   KEY,
   handleWhatchedMovie,
+  watched,
 }) => {
   const [isLoading, setIsloading] = useState(false);
   const [movie, setMovie] = useState({});
   const [userRating, setUserRating] = useState("");
+  const isWatched = watched.map((movie) => movie.imdID).includes(selectedId);
+  const watchedUserRating = watched.find(
+    (movie) => movie.imdID === selectedId
+  )?.userRating;
+
   const {
     Title: title,
     Year: year,
@@ -84,19 +91,25 @@ const MovieDelaits = ({
 
           <section>
             <div className="rating">
-              <StarRating
-                maxRating={10}
-                size={24}
-                onSetRating={setUserRating}
-              />
-              {userRating && (
-                <button
-                  onClick={handleAddMovieToWatched}
-                  className="btn-add"
-                  // onClick={handleAdd}
-                >
-                  + Add to list
-                </button>
+              {!isWatched ? (
+                <Fragment>
+                  <StarRating
+                    maxRating={10}
+                    size={24}
+                    onSetRating={setUserRating}
+                  />
+                  {userRating && (
+                    <button
+                      onClick={handleAddMovieToWatched}
+                      className="btn-add"
+                      // onClick={handleAdd}
+                    >
+                      + Add to list
+                    </button>
+                  )}{" "}
+                </Fragment>
+              ) : (
+                <p>you already raited movie by " {watchedUserRating} " 🌟</p>
               )}
             </div>
             <p>

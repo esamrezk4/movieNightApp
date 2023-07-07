@@ -22,7 +22,7 @@ const tempWatchedData = [
   },
 ];
 
-const WathcedSummary = ({ watched }) => {
+const WathcedSummary = ({ watched, handleRemoveMovie }) => {
   const average = (arr) =>
     arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
   const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
@@ -38,16 +38,23 @@ const WathcedSummary = ({ watched }) => {
         </p>
         <p>
           <span>⭐️</span>
-          <span>{avgImdbRating}</span>
+          <span>{avgImdbRating.toFixed(2)}</span>
         </p>
         <p>
           <span>🌟</span>
-          <span>{avgUserRating}</span>
+          <span>{avgUserRating.toFixed(2)}</span>
         </p>
         <p>
           <span>⏳</span>
           <span>{avgRuntime} min</span>
         </p>
+
+        {/* <button
+          className="btn-delete"
+          onClick={() => handleRemoveMovie(movie.imdbID)}
+        >
+          x
+        </button> */}
       </div>
     </div>
   );
