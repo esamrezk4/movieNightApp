@@ -3,7 +3,6 @@ import StarRating from "./StarRating";
 import Loader from "./Loader";
 
 const MovieDelaits = ({
-  handleRemoveMovie,
   selectedId,
   onCloseDetails,
   KEY,

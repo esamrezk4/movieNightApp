@@ -161,10 +161,7 @@ export default function App() {
             />
           ) : (
             <Fragment>
-              <WathcedSummary
-                watched={watched}
-                handleRemoveMovie={handleRemoveMovie}
-              />
+              <WathcedSummary watched={watched} />
               <WatchedMoviesList
                 watched={watched}
                 handleRemoveMovie={handleRemoveMovie}
