@@ -1,72 +1,17 @@
 import { Fragment, useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Main from "./Main";
-import Logo from "./Logo";
 import Search from "./Search";
 import Numresults from "./Numresults";
 
-import WatchedBox from "./WatchedBox";
 import MovieList from "./MovieList";
 import Box from "./Box";
 import WathcedSummary from "./WathcedSummary";
 import WatchedMoviesList from "./WatchedMoviesList";
-import StarRating from "./StarRating";
 import Loader from "./Loader";
 import ErrorMessage from "./ErrorMessage";
 import MovieDelaits from "./MovieDelaits";
 
-const tempMovieData = [
-  {
-    imdbID: "tt1375666",
-    Title: "Inception",
-    Year: "2010",
-    Poster:
-      "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
-  },
-  {
-    imdbID: "tt0133093",
-    Title: "The Matrix",
-    Year: "1999",
-    Poster:
-      "https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
-  },
-  {
-    imdbID: "tt6751668",
-    Title: "Parasite",
-    Year: "2019",
-    Poster:
-      "https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_SX300.jpg",
-  },
-  {
-    imdbID: "tt6751654",
-    Title: "lil",
-    Year: "2019",
-    Poster:
-      "https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_SX300.jpg",
-  },
-];
-const tempWatchedData = [
-  {
-    imdbID: "tt1375666",
-    Title: "Inception",
-    Year: "2010",
-    Poster:
-      "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
-    runtime: 148,
-    imdbRating: 8.8,
-    userRating: 10,
-  },
-  {
-    imdbID: "tt0088763",
-    Title: "Back to the Future",
-    Year: "1985",
-    Poster:
-      "https://m.media-amazon.com/images/M/MV5BZmU0M2Y1OGUtZjIxNi00ZjBkLTg1MjgtOWIyNThiZWIwYjRiXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
-    runtime: 116,
-    imdbRating: 8.5,
-    userRating: 9,
-  },
-];
 const KEY = "f84fc31d";
 
 export default function App() {
@@ -83,21 +28,32 @@ export default function App() {
   function handleWhatchedMovie(movie) {
     setWatched((watchedMovie) => [...watchedMovie, movie]);
   }
-  function handleRemoveMovie(id) {
-    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+  function handleDeleteWatched(id) {
+    setWatched((watched) => watched.filter((movie) => movie.imdID !== id));
   }
+
+  useEffect(function () {
+    document.addEventListener("keydown", function (e) {
+      if (e.code === "Escape") {
+        handleCloseDetails();
+        console.log("log");
+      }
+    });
+  }, []);
   function handleCloseDetails() {
     setSelectedId(null);
   }
 
   useEffect(
     function () {
+      const controller = new AbortController();
       async function fetchMovies() {
         try {
           setIsLoading(true);
           setError("");
           const res = await fetch(
-            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+            { signal: controller.signal }
           );
 
           if (!res.ok)
@@ -111,7 +67,13 @@ export default function App() {
           setError("");
         } catch (err) {
           console.log(err.message);
-          setError(err.message);
+          if (
+            err.name !== "AbortError" ||
+            "Something went wrong with fetching movies"
+          ) {
+            setError(err.message);
+            setError("");
+          }
         } finally {
           setIsLoading(false);
         }
@@ -123,6 +85,9 @@ export default function App() {
         return;
       }
       fetchMovies();
+      return function () {
+        controller.abort();
+      };
     },
     [query]
   );
@@ -163,8 +128,9 @@ export default function App() {
             <Fragment>
               <WathcedSummary watched={watched} />
               <WatchedMoviesList
+                key={watched.id}
                 watched={watched}
-                handleRemoveMovie={handleRemoveMovie}
+                onDeleteWatched={handleDeleteWatched}
               />
             </Fragment>
           )}

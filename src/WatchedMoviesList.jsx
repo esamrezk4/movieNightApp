@@ -1,12 +1,12 @@
 import React from "react";
 import WatchedMovie from "./WatchedMovie";
 
-const WatchedMoviesList = ({ watched, handleRemoveMovie }) => {
+const WatchedMoviesList = ({ watched, onDeleteWatched }) => {
   return (
     <ul className="list">
       {watched.map((movie) => (
         <WatchedMovie
-          handleRemoveMovie={handleRemoveMovie}
+          onDeleteWatched={onDeleteWatched}
           movie={movie}
           key={movie.imdbID}
         />
