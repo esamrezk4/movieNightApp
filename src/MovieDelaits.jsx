@@ -16,7 +16,22 @@ const MovieDelaits = ({
   const watchedUserRating = watched.find(
     (movie) => movie.imdID === selectedId
   )?.userRating;
+  useEffect(
+    function () {
+      function callback(e) {
+        if (e.code === "Escape") {
+          onCloseDetails();
+        }
+      }
 
+      document.addEventListener("keydown", callback);
+
+      return function () {
+        document.removeEventListener("keydown", callback);
+      };
+    },
+    [onCloseDetails]
+  );
   const {
     Title: title,
     Year: year,

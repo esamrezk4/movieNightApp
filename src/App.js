@@ -32,14 +32,6 @@ export default function App() {
     setWatched((watched) => watched.filter((movie) => movie.imdID !== id));
   }
 
-  useEffect(function () {
-    document.addEventListener("keydown", function (e) {
-      if (e.code === "Escape") {
-        handleCloseDetails();
-        console.log("log");
-      }
-    });
-  }, []);
   function handleCloseDetails() {
     setSelectedId(null);
   }
@@ -84,6 +76,7 @@ export default function App() {
         setError("");
         return;
       }
+      handleCloseDetails();
       fetchMovies();
       return function () {
         controller.abort();
@@ -128,7 +121,7 @@ export default function App() {
             <Fragment>
               <WathcedSummary watched={watched} />
               <WatchedMoviesList
-                key={watched.id}
+                key={watched.imdID}
                 watched={watched}
                 onDeleteWatched={handleDeleteWatched}
               />
